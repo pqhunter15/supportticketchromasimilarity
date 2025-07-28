@@ -1,5 +1,9 @@
+# Dependencies
 streamlit
 pandas
 chromadb
 sentence-transformers
 huggingface_hub
+
+# Pin Python version for Streamlit Cloud
+python_version == 3.10
