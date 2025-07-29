@@ -27,7 +27,7 @@ if "collection" not in st.session_state:
 
 collection = st.session_state.collection
 
-collection = st.session_state.collection
+st.write("Collection count:", st.session_state.collection.count())
 
 query = st.text_input("Enter your question:")
 top_k = 3
