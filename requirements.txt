@@ -1,4 +1,5 @@
 # Dependencies
+pysqlite3-binary
 streamlit
 pandas
 chromadb
@@ -7,3 +8,5 @@ huggingface_hub
 
 # Pin Python version for Streamlit Cloud
 python_version == 3.10
+
+
