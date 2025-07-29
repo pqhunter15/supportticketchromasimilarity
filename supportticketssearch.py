@@ -53,3 +53,5 @@ if query and "collection" in st.session_state:
             **Answer:** {row['answer']}
             **Body:** {row['body'][:300]}...
             """)
+
+st.write("Raw results:", results)
