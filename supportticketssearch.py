@@ -44,7 +44,7 @@ if query and "collection" in st.session_state:
 
     st.markdown("### Results:")
     for doc, meta, dist in zip(*[results[k][0] for k in ["documents", "metadatas", "distances"]]):
-        doc_id = meta["original_doc_id"]
+        doc_id = int(meta["original_doc_id"])
         match_row = df[df["doc_id"] == doc_id]
 
         if not match_row.empty:
