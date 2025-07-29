@@ -38,7 +38,7 @@ if query and "collection" in st.session_state:
     results = st.session_state.collection.query(
         query_texts=[query],
         n_results=top_k,
-        include=["metadatas", "distances"]
+        include=["documents", "metadatas", "distances"]
     )
     st.write("Raw results:", results)
 
