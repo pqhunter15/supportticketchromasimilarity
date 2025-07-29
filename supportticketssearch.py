@@ -21,9 +21,12 @@ df = pd.read_csv(github_url)
 
 from chroma_setup import load_chroma_collection
 
+
 # Only load once per session
 if "collection" not in st.session_state:
     st.session_state.collection = load_chroma_collection()
+
+collection = st.session_state.collection
 
 collection = st.session_state.collection
 
