@@ -17,7 +17,6 @@ import chromadb
 
 github_url = "https://raw.githubusercontent.com/pqhunter15/supportticketchromasimilarity/main/support_cleaned.csv"
 df = pd.read_csv(github_url)
-#display(df.head())
 
 from chroma_setup import load_chroma_collection
 
