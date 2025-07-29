@@ -30,6 +30,9 @@ collection = st.session_state.collection
 st.write("Collection count:", st.session_state.collection.count())
 
 query = st.text_input("Enter your question:")
+
+st.write("Raw results:", results)
+
 top_k = 3
 
 if query and "collection" in st.session_state:
@@ -54,4 +57,4 @@ if query and "collection" in st.session_state:
             **Body:** {row['body'][:300]}...
             """)
 
-st.write("Raw results:", results)
+
