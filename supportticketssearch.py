@@ -31,7 +31,6 @@ st.write("Collection count:", st.session_state.collection.count())
 
 query = st.text_input("Enter your question:")
 
-st.write("Raw results:", results)
 
 top_k = 3
 
@@ -41,6 +40,7 @@ if query and "collection" in st.session_state:
         n_results=top_k,
         include=["metadatas", "distances"]
     )
+    st.write("Raw results:", results)
 
     st.markdown("### Results:")
     for doc, meta, dist in zip(*[results[k][0] for k in ["documents", "metadatas", "distances"]]):
