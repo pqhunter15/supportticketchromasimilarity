@@ -37,7 +37,7 @@ def load_chroma_collection():
         zip_ref.extractall(extract_dir)
 
     # Step 3: Initialize ChromaDB client from the extracted path
-   client = chromadb.PersistentClient(path=extract_dir)
+    client = chromadb.PersistentClient(path=extract_dir)
 
     # Step 4: Load the collection
     collection = client.get_collection("my_collection_2")     # Replace with your collection name
