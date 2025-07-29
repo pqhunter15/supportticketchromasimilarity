@@ -7,7 +7,11 @@ Original file is located at
     https://colab.research.google.com/drive/1bxcjXk5-uXpsyNrvzVltqBjikuDmJaFI
 """
 
-!pip install chromadb
+import sys
+import pysqlite3
+
+sys.modules["sqlite3"] = pysqlite3
+sys.modules["pysqlite3"] = pysqlite3
 
 # chroma_setup.py
 #left off here---- use the new repo and file name, then try to load the collection again.
