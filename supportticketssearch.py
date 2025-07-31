@@ -15,7 +15,7 @@ import pandas as pd
 import streamlit as st
 import chromadb
 
-github_url = "https://raw.githubusercontent.com/pqhunter15/supportticketchromasimilarity/main/support_cleaned.csv"
+github_url = "https://raw.githubusercontent.com/pqhunter15/supportticketchromasimilarity/main/support_cleaned_1.csv"
 df = pd.read_csv(github_url)
 
 from chroma_setup import load_chroma_collection
