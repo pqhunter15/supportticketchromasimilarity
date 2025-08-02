@@ -136,3 +136,16 @@ if query and "collection" in st.session_state:
             **Answer:** {row['answer']}  
             **Body:** {row['body'][:300]}...
             """)
+
+
+response = requests.post(url, headers=headers, json=payload_template)
+
+# Debugging help: print raw output
+st.write("Raw response:", response.text)
+
+try:
+    reword = response.json()[0]['generated_text']
+    reworded.append(reword)
+except Exception as e:
+    st.warning(f"Paraphrasing failed: {e}")
+    continue
