@@ -16,6 +16,9 @@ import streamlit as st
 import chromadb
 import openai
 import streamlit as st
+import os
+import heapq
+from collections import defaultdict
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
@@ -33,8 +36,6 @@ collection = st.session_state.collection
 
 query = st.text_input("Enter your question:")
 
-import openai  # or use another LLM
-import os
 
 #query rewriting aggregation
 
@@ -83,25 +84,46 @@ else:
 
 # Query Chroma collection with optional filters
 if query and "collection" in st.session_state:
-    results = st.session_state.collection.query(
-        query_texts=[query],
-        n_results=top_k,
-        where=where_clause if where_clause else None,
-        include=["documents", "metadatas", "distances"]
-    )
+    # Step 1: Rewrite queries
+    reworded_queries = rewrite_query(query, num_rewrites=2)
+    all_queries = [query] + reworded_queries
 
+    # Step 2: Query Chroma for each rewritten version
+    top_k = 3
+    results_by_doc = {}
+
+    for q in all_queries:
+        results = st.session_state.collection.query(
+            query_texts=[q],
+            n_results=top_k,
+            where=where_clause if where_clause else None,  # ✅ include metadata filter
+            include=["documents", "metadatas", "distances"]
+        )
+
+        # Step 3: Aggregate by doc_id with best (lowest) distance
+        for doc, meta, dist in zip(*[results[k][0] for k in ["documents", "metadatas", "distances"]]):
+            doc_id = int(meta["original_doc_id"])
+            if doc_id not in results_by_doc or dist < results_by_doc[doc_id]["dist"]:
+                results_by_doc[doc_id] = {
+                    "meta": meta,
+                    "doc": doc,
+                    "dist": dist
+                }
+
+    # Step 4: Sort aggregated results by cosine distance
+    sorted_results = sorted(results_by_doc.items(), key=lambda x: x[1]["dist"])
+    top_results = sorted_results[:top_k]
+
+    # Step 5: Display results
     st.markdown("### Results:")
-    for doc, meta, dist in zip(*[results[k][0] for k in ["documents", "metadatas", "distances"]]):
-        doc_id = int(meta["original_doc_id"])
+    for doc_id, entry in top_results:
         match_row = df[df["doc_id"] == doc_id]
-
         if not match_row.empty:
             row = match_row.iloc[0]
             st.markdown(f"""
             **Doc ID:** {doc_id}  
-            **Similarity:** {dist:.4f}  
+            **Similarity:** {entry['dist']:.4f}  
             **Topic:** {row['topic_label']}  
             **Answer:** {row['answer']}  
             **Body:** {row['body'][:300]}...
             """)
-
