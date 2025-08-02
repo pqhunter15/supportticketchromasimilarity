@@ -26,8 +26,8 @@ import chromadb
 def load_chroma_collection():
     # Step 1: Download the zip from Hugging Face Dataset Hub
     zip_path = hf_hub_download(
-        repo_id="pqhunter15/chromadb-support-db",       # Replace with your repo
-        filename="chromadb_collection.zip",                # Replace with your file
+        repo_id="pqhunter15/chromadb-support-db_2",       # Replace with your repo
+        filename="chromadb_collection2.zip",                # Replace with your file
         repo_type="dataset"
     )
 
@@ -40,8 +40,8 @@ def load_chroma_collection():
     client = chromadb.PersistentClient(path=extract_dir)
 
     # Step 4: Load the collection
-    collection = client.get_collection("my_collection_2")     # Replace with your collection name
+    collection = client.get_collection("support_collection_1")     # Replace with your collection name
     return collection
-
+    
 collection = load_chroma_collection()
 print("Done. Current count:", collection.count())
