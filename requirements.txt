@@ -5,7 +5,7 @@ pandas
 chromadb
 sentence-transformers
 huggingface_hub
-openai
+requests
 
 
 
