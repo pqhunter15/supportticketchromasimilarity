@@ -43,12 +43,11 @@ query = st.text_input("Enter your question:")
 #query rewriting aggregation
 
 def rewrite_query_hf(original_query, num_rewrites=2):
-    url = "https://api-inference.huggingface.co/models/ramsrigouthamg/t5_paraphraser"
+    url = "https://api-inference.huggingface.co/models/Vamsi/T5_Paraphrase_Paws"
     headers = {
         "Authorization": f"Bearer {st.secrets['HF_API_KEY']}",
         "Content-Type": "application/json"
     }
-
 
     reworded = []
     for _ in range(num_rewrites):
@@ -72,6 +71,7 @@ def rewrite_query_hf(original_query, num_rewrites=2):
             continue
 
     return reworded
+
 
 
 top_k = 3
