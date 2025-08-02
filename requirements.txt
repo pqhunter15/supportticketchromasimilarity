@@ -7,7 +7,7 @@ sentence-transformers
 huggingface_hub
 requests
 transformers==4.35.2
-torch==2.0.1
+torch
 
 
 
