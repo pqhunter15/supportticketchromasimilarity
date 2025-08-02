@@ -45,20 +45,25 @@ query = st.text_input("Enter your question:")
 def rewrite_query_hf(original_query, num_rewrites=2):
     url = "https://api-inference.huggingface.co/models/Vamsi/T5_Paraphrase_Paws"
     headers = {"Authorization": f"Bearer {st.secrets['HF_API_KEY']}"}
+    
     payload_template = {
         "inputs": f"paraphrase: {original_query} </s>",
         "parameters": {"num_beams": 5, "num_return_sequences": 1},
     }
 
     reworded = []
-    for _ in range(num_rewrites):
+    for _ in range(num_rewrites):  # ✅ continue is valid here
         response = requests.post(url, headers=headers, json=payload_template)
+
+        st.write("Raw response:", response.text)  # Debug output
+
         try:
             reword = response.json()[0]['generated_text']
             reworded.append(reword)
         except Exception as e:
             st.warning(f"Paraphrasing failed: {e}")
-            continue
+            continue  # ✅ allowed here, inside loop
+
     return reworded
 
 
@@ -138,14 +143,6 @@ if query and "collection" in st.session_state:
             """)
 
 
-response = requests.post(url, headers=headers, json=payload_template)
 
-# Debugging help: print raw output
-st.write("Raw response:", response.text)
 
-try:
-    reword = response.json()[0]['generated_text']
-    reworded.append(reword)
-except Exception as e:
-    st.warning(f"Paraphrasing failed: {e}")
-    continue
+
