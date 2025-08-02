@@ -21,8 +21,7 @@ import os
 import heapq
 from collections import defaultdict
 
-import sys
-print("requests" in sys.modules)
+
 
 
 github_url = "https://raw.githubusercontent.com/pqhunter15/supportticketchromasimilarity/main/support_cleaned_1.csv"
