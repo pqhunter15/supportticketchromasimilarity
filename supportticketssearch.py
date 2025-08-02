@@ -46,7 +46,7 @@ import requests
 import streamlit as st
 
 def rewrite_query_hf(original_query, num_rewrites=2):
-    url = "https://api-inference.huggingface.co/models/flax-community/t5-paraphrase-generator"
+    url = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
     headers = {
         "Authorization": f"Bearer {st.secrets['HF_API_KEY']}",
         "Content-Type": "application/json"
@@ -55,21 +55,19 @@ def rewrite_query_hf(original_query, num_rewrites=2):
     reworded = []
     for _ in range(num_rewrites):
         payload = {
-            "inputs": f"paraphrase: {original_query}",
+            "inputs": original_query,
             "parameters": {
                 "do_sample": True,
-                "top_k": 120,
-                "top_p": 0.95,
-                "temperature": 0.9,
+                "temperature": 0.7,
                 "num_return_sequences": 1
             }
         }
 
         response = requests.post(url, headers=headers, json=payload)
-        st.write("Raw response:", response.text)  # For debugging
+        st.write("Raw response text:", response.text)
 
         try:
-            reword = response.json()[0]["generated_text"]
+            reword = response.json()[0]["summary_text"]
             reworded.append(reword)
         except Exception as e:
             st.warning(f"Paraphrasing failed: {e}")
