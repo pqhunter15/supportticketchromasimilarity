@@ -29,18 +29,35 @@ collection = st.session_state.collection
 
 
 
-query = st.text_input("Enter your question:")
+# Add tag filters in the sidebar
+st.sidebar.header("Optional Tag Filters")
+tag1 = st.sidebar.text_input("Filter Tag 1")
+tag2 = st.sidebar.text_input("Filter Tag 2")
+tag3 = st.sidebar.text_input("Filter Tag 3")
 
+# Build metadata filtering logic
+filters = []
+for tag in [tag1, tag2, tag3]:
+    if tag:
+        filters.append({
+            "$or": [
+                {"tech_tag_1": tag},
+                {"tech_tag_2": tag},
+                {"tech_tag_3": tag}
+            ]
+        })
 
-top_k = 3
+# Combine filters into a single where clause
+where_clause = {"$and": filters} if filters else {}
 
+# Query Chroma collection with optional filters
 if query and "collection" in st.session_state:
     results = st.session_state.collection.query(
         query_texts=[query],
         n_results=top_k,
+        where=where_clause if where_clause else None,
         include=["documents", "metadatas", "distances"]
     )
- 
 
     st.markdown("### Results:")
     for doc, meta, dist in zip(*[results[k][0] for k in ["documents", "metadatas", "distances"]]):
@@ -50,11 +67,10 @@ if query and "collection" in st.session_state:
         if not match_row.empty:
             row = match_row.iloc[0]
             st.markdown(f"""
-            **Doc ID:** {doc_id}
-            **Similarity:** {dist:.4f}
-            **Topic:** {row['topic_label']}
-            **Answer:** {row['answer']}
+            **Doc ID:** {doc_id}  
+            **Similarity:** {dist:.4f}  
+            **Topic:** {row['topic_label']}  
+            **Answer:** {row['answer']}  
             **Body:** {row['body'][:300]}...
             """)
-
 
