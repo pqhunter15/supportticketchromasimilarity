@@ -27,7 +27,10 @@ if "collection" not in st.session_state:
 
 collection = st.session_state.collection
 
+query = st.text_input("Enter your question:")
 
+
+top_k = 3
 
 # Add tag filters in the sidebar
 st.sidebar.header("Optional Tag Filters")
