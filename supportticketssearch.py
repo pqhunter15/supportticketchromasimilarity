@@ -43,26 +43,29 @@ query = st.text_input("Enter your question:")
 #query rewriting aggregation
 
 def rewrite_query_hf(original_query, num_rewrites=2):
-    url = "https://api-inference.huggingface.co/models/Vamsi/T5_Paraphrase_Paws"
+    url = "https://api-inference.huggingface.co/models/ramsrigouthamg/t5_paraphraser"
     headers = {"Authorization": f"Bearer {st.secrets['HF_API_KEY']}"}
-    
-    payload_template = {
-        "inputs": f"paraphrase: {original_query} </s>",
-        "parameters": {"num_beams": 5, "num_return_sequences": 1},
-    }
 
     reworded = []
-    for _ in range(num_rewrites):  # ✅ continue is valid here
-        response = requests.post(url, headers=headers, json=payload_template)
+    for _ in range(num_rewrites):
+        payload = {
+            "inputs": f"paraphrase: {original_query} </s>",
+            "parameters": {
+                "num_beams": 5,
+                "num_return_sequences": 1,
+                "temperature": 1.5
+            }
+        }
 
-        st.write("Raw response:", response.text)  # Debug output
+        response = requests.post(url, headers=headers, json=payload)
+        st.write("Raw response:", response.text)
 
         try:
-            reword = response.json()[0]['generated_text']
+            reword = response.json()[0]["generated_text"]
             reworded.append(reword)
         except Exception as e:
             st.warning(f"Paraphrasing failed: {e}")
-            continue  # ✅ allowed here, inside loop
+            continue
 
     return reworded
 
