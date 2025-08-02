@@ -14,8 +14,6 @@ sys.modules["pysqlite3"] = pysqlite3
 import pandas as pd
 import streamlit as st
 import chromadb
-import openai
-from openai import OpenAI
 import streamlit as st
 import os
 import heapq
