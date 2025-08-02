@@ -14,6 +14,10 @@ sys.modules["pysqlite3"] = pysqlite3
 import pandas as pd
 import streamlit as st
 import chromadb
+import openai
+import streamlit as st
+
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 github_url = "https://raw.githubusercontent.com/pqhunter15/supportticketchromasimilarity/main/support_cleaned_1.csv"
 df = pd.read_csv(github_url)
