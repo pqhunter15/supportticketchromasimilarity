@@ -39,33 +39,23 @@ query = st.text_input("Enter your question:")
 
 #query rewriting aggregation
 
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+def rewrite_query_hf(original_query, num_rewrites=2):
+    url = "https://api-inference.huggingface.co/models/Vamsi/T5_Paraphrase_Paws"
+    headers = {"Authorization": f"Bearer {st.secrets['HF_API_KEY']}"}
+    payload_template = {
+        "inputs": f"paraphrase: {original_query} </s>",
+        "parameters": {"num_beams": 5, "num_return_sequences": 1},
+    }
 
-def rewrite_query(original_query, num_rewrites=2):
     reworded = []
-
     for _ in range(num_rewrites):
-        prompt = (
-            "Rewrite the following question using different sentence structure, vocabulary, "
-            "length, and phrasing — but retain the original meaning:\n\n"
-            f"{original_query}"
-        )
-
+        response = requests.post(url, headers=headers, json=payload_template)
         try:
-            response = client.chat.completions.create(
-                model="gpt-3.5-turbo",  # or "gpt-3.5-turbo" for lower cost/faster speed
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.8,
-                max_tokens=200,
-            )
-
-            new_query = response.choices[0].message.content.strip()
-            reworded.append(new_query)
-
+            reword = response.json()[0]['generated_text']
+            reworded.append(reword)
         except Exception as e:
-            st.warning(f"Query rewrite failed: {e}")
+            st.warning(f"Paraphrasing failed: {e}")
             continue
-
     return reworded
 
 
