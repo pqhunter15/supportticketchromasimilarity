@@ -110,7 +110,7 @@ else:
 # Query Chroma collection with optional filters
 if query and "collection" in st.session_state:
     # Step 1: Rewrite queries
-    reworded_queries = rewrite_query_hf(query, num_rewrites=2)
+    reworded_queries = rewrite_query_local(query, num_rewrites=2)
     all_queries = [query] + reworded_queries
 
     # Step 2: Query Chroma for each rewritten version
