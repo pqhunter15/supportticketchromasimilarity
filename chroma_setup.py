@@ -40,7 +40,7 @@ def load_chroma_collection():
     client = chromadb.PersistentClient(path=extract_dir)
 
     # Step 4: Load the collection
-    collection = client.get_collection("support_collection_1")     # Replace with your collection name
+    collection = client.get_collection("support_1")     # Replace with your collection name
     return collection
     
 collection = load_chroma_collection()
