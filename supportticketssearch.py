@@ -15,12 +15,12 @@ import pandas as pd
 import streamlit as st
 import chromadb
 import openai
+from openai import OpenAI
 import streamlit as st
 import os
 import heapq
 from collections import defaultdict
 
-openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 github_url = "https://raw.githubusercontent.com/pqhunter15/supportticketchromasimilarity/main/support_cleaned_1.csv"
 df = pd.read_csv(github_url)
@@ -39,17 +39,33 @@ query = st.text_input("Enter your question:")
 
 #query rewriting aggregation
 
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
 def rewrite_query(original_query, num_rewrites=2):
     reworded = []
+
     for _ in range(num_rewrites):
-        prompt = f"Rewrite the following question with different phrasing, structure, and length, but keep the same meaning:\n\n{original_query}"
-        response = openai.ChatCompletion.create(
-            model="gpt-4",  # or gpt-3.5-turbo or any local model
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.8,
+        prompt = (
+            "Rewrite the following question using different sentence structure, vocabulary, "
+            "length, and phrasing — but retain the original meaning:\n\n"
+            f"{original_query}"
         )
-        new_query = response['choices'][0]['message']['content'].strip()
-        reworded.append(new_query)
+
+        try:
+            response = client.chat.completions.create(
+                model="gpt-4",  # or "gpt-3.5-turbo" for lower cost/faster speed
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.8,
+                max_tokens=200,
+            )
+
+            new_query = response.choices[0].message.content.strip()
+            reworded.append(new_query)
+
+        except Exception as e:
+            st.warning(f"Query rewrite failed: {e}")
+            continue
+
     return reworded
 
 
