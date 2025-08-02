@@ -27,6 +27,7 @@ import torch
 
 
 
+
 github_url = "https://raw.githubusercontent.com/pqhunter15/supportticketchromasimilarity/main/support_cleaned_1.csv"
 df = pd.read_csv(github_url)
 
@@ -48,17 +49,26 @@ import requests
 import streamlit as st
 
 # Load model and tokenizer
-tokenizer = AutoTokenizer.from_pretrained("ramsrigouthamg/t5_paraphraser")
-model = AutoModelForSeq2SeqLM.from_pretrained("ramsrigouthamg/t5_paraphraser")
-
-def rewrite_query_local(original_query, num_rewrites=2):
+@st.cache_resource
+def load_t5_model():
+    tokenizer = AutoTokenizer.from_pretrained("t5-small", use_fast=False)
+    model = AutoModelForSeq2SeqLM.from_pretrained("t5-small")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
+    return tokenizer, model, device
 
+tokenizer, model, device = load_t5_model()
+
+def rewrite_query_local(original_query, num_rewrites=2):
     reworded = []
     input_text = f"paraphrase: {original_query} </s>"
+
     encoding = tokenizer.encode_plus(
-        input_text, padding='max_length', return_tensors="pt", max_length=256, truncation=True
+        input_text,
+        max_length=256,
+        padding="max_length",
+        truncation=True,
+        return_tensors="pt"
     ).to(device)
 
     for _ in range(num_rewrites):
@@ -66,16 +76,16 @@ def rewrite_query_local(original_query, num_rewrites=2):
             input_ids=encoding["input_ids"],
             attention_mask=encoding["attention_mask"],
             max_length=256,
-            num_return_sequences=1,
             num_beams=5,
-            temperature=1.5
+            do_sample=True,
+            temperature=1.2,
+            num_return_sequences=1,
         )
 
-        paraphrased = tokenizer.decode(output[0], skip_special_tokens=True)
-        reworded.append(paraphrased)
+        decoded = tokenizer.decode(output[0], skip_special_tokens=True)
+        reworded.append(decoded)
 
     return reworded
-
 
 
 top_k = 3
