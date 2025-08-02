@@ -42,8 +42,11 @@ query = st.text_input("Enter your question:")
 
 #query rewriting aggregation
 
+import requests
+import streamlit as st
+
 def rewrite_query_hf(original_query, num_rewrites=2):
-    url = "https://api-inference.huggingface.co/models/Vamsi/T5_Paraphrase_Paws"
+    url = "https://api-inference.huggingface.co/models/flax-community/t5-paraphrase-generator"
     headers = {
         "Authorization": f"Bearer {st.secrets['HF_API_KEY']}",
         "Content-Type": "application/json"
@@ -52,16 +55,18 @@ def rewrite_query_hf(original_query, num_rewrites=2):
     reworded = []
     for _ in range(num_rewrites):
         payload = {
-            "inputs": f"paraphrase: {original_query} </s>",
+            "inputs": f"paraphrase: {original_query}",
             "parameters": {
-                "num_beams": 5,
-                "num_return_sequences": 1,
-                "temperature": 1.5
+                "do_sample": True,
+                "top_k": 120,
+                "top_p": 0.95,
+                "temperature": 0.9,
+                "num_return_sequences": 1
             }
         }
 
         response = requests.post(url, headers=headers, json=payload)
-        st.write("Raw response:", response.text)
+        st.write("Raw response:", response.text)  # For debugging
 
         try:
             reword = response.json()[0]["generated_text"]
