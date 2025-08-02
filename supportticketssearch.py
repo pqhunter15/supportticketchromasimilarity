@@ -33,6 +33,24 @@ collection = st.session_state.collection
 
 query = st.text_input("Enter your question:")
 
+import openai  # or use another LLM
+import os
+
+#query rewriting aggregation
+
+def rewrite_query(original_query, num_rewrites=2):
+    reworded = []
+    for _ in range(num_rewrites):
+        prompt = f"Rewrite the following question with different phrasing, structure, and length, but keep the same meaning:\n\n{original_query}"
+        response = openai.ChatCompletion.create(
+            model="gpt-4",  # or gpt-3.5-turbo or any local model
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.8,
+        )
+        new_query = response['choices'][0]['message']['content'].strip()
+        reworded.append(new_query)
+    return reworded
+
 
 top_k = 3
 
