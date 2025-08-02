@@ -53,7 +53,7 @@ def rewrite_query(original_query, num_rewrites=2):
 
         try:
             response = client.chat.completions.create(
-                model="gpt-4",  # or "gpt-3.5-turbo" for lower cost/faster speed
+                model="gpt-3.5-turbo",  # or "gpt-3.5-turbo" for lower cost/faster speed
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.8,
                 max_tokens=200,
