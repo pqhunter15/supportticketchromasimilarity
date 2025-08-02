@@ -51,7 +51,13 @@ for tag in [tag1, tag2, tag3]:
         })
 
 # Combine filters into a single where clause
-where_clause = {"$and": filters} if filters else {}
+# Safely construct the where clause
+if len(filters) == 1:
+    where_clause = filters[0]  # single OR block
+elif len(filters) > 1:
+    where_clause = {"$and": filters}  # multiple filters combined with AND
+else:
+    where_clause = None  # no filters
 
 # Query Chroma collection with optional filters
 if query and "collection" in st.session_state:
