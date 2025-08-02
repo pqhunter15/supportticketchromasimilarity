@@ -44,7 +44,7 @@ query = st.text_input("Enter your question:")
 
 def rewrite_query_hf(original_query, num_rewrites=2):
     url = "https://api-inference.huggingface.co/models/ramsrigouthamg/t5_paraphraser"
-     headers = {
+    headers = {
         "Authorization": f"Bearer {st.secrets['HF_API_KEY']}",
         "Content-Type": "application/json"
     }
