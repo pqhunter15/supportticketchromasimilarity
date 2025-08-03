@@ -23,7 +23,7 @@ if "collection" not in st.session_state:
 collection = st.session_state.collection
 
 # Query input
-query = st.text_input("Enter your question:")
+
 
 #pulling list of eligible tags
 # Extract all unique tech tags from all 3 columns
@@ -35,10 +35,15 @@ tech_tags = sorted(set(tag.strip() for tag in all_tags_series if isinstance(tag,
 
 
 # Sidebar tag filters
-st.sidebar.header("Optional Tag Filtersss")
+st.sidebar.header("Tag Filters")
 selected_tags = st.sidebar.multiselect("Select one or more tags:", tech_tags)
 
-# Construct metadata filter
+with st.form(key="query_form"):
+    query = st.text_input("Enter your question:")
+    selected_tags = st.multiselect("Select one or more tags:", tech_tags)
+    submit = st.form_submit_button("Submit Request")
+
+# --- Filter construction ---
 filters = []
 for tag in selected_tags:
     filters.append({
@@ -55,6 +60,7 @@ elif len(filters) > 1:
     where_clause = {"$and": filters}
 else:
     where_clause = None
+
 
 # Rewrite query using OpenAI
 def rewrite_query_openai(original_query, num_rewrites=2):
