@@ -26,34 +26,28 @@ collection = st.session_state.collection
 query = st.text_input("Enter your question:")
 
 #pulling list of eligible tags
-# Collect all unique tech tags from the 3 columns
-tech_tags = pd.unique(
-    pd.concat([df["tech_tag_1"], df["tech_tag_2"], df["tech_tag_3"]])
-    .dropna()
-    .str.strip()
-)
+# Extract all unique tech tags from all 3 columns
+tech_tag_columns = ["tech_tag_1", "tech_tag_2", "tech_tag_3"]
+all_tags_series = pd.concat([df[col].dropna() for col in tech_tag_columns])
+tech_tags = sorted(set(tag.strip() for tag in all_tags_series if isinstance(tag, str)))
 
-# Sort alphabetically for nice UI
-tech_tags = sorted(tag for tag in tech_tags if tag)
+
 
 
 # Sidebar tag filters
 st.sidebar.header("Optional Tag Filters")
-tag1 = st.sidebar.selectbox("Filter Tag 1", options=[""] + tech_tags, index=0)
-tag2 = st.sidebar.selectbox("Filter Tag 2", options=[""] + tech_tags, index=0)
-tag3 = st.sidebar.selectbox("Filter Tag 3", options=[""] + tech_tags, index=0)
+selected_tags = st.sidebar.multiselect("Select one or more tags:", tech_tags)
 
 # Construct metadata filter
 filters = []
-for tag in [tag1, tag2, tag3]:
-    if tag:
-        filters.append({
-            "$or": [
-                {"tech_tag_1": tag},
-                {"tech_tag_2": tag},
-                {"tech_tag_3": tag}
-            ]
-        })
+for tag in selected_tags:
+    filters.append({
+        "$or": [
+            {"tech_tag_1": tag},
+            {"tech_tag_2": tag},
+            {"tech_tag_3": tag}
+        ]
+    })
 
 if len(filters) == 1:
     where_clause = filters[0]
