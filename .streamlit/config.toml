@@ -1,7 +1,7 @@
 [theme]
-base = "dark"
-primaryColor = "#32CD32"             # Lime green
-backgroundColor = "#737282"          # Dark gray background
-secondaryBackgroundColor = "#333232" # For input panels and cards
-textColor = "#E0E0E0"                # Soft white
+base = "light"
+primaryColor = "#32CD32"             # Lime green accent
+backgroundColor = "#FAFAFA"          # Soft warm light gray
+secondaryBackgroundColor = "#FFFFFF" # White panels
+textColor = "#1A1A1A"                # Dark gray for readability
 font = "sans serif"
