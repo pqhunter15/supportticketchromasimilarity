@@ -119,17 +119,6 @@ if submit and query and top_results:
         answer = row['answer']
         topic = row['topic_label']
 
-if submit and query and top_results:
-    st.markdown("### Results:")
-
-    for doc_id, entry in top_results:
-        row = df[df["doc_id"] == doc_id].iloc[0]
-
-        similarity = f"{entry['dist']:.4f}"
-        body = row['body']
-        answer = row['answer']
-        topic = row['topic_label']
-
         st.markdown(f"""
         div style="
         border: 2px solid #32CD32;
