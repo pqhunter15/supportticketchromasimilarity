@@ -151,7 +151,7 @@ if submit and query and top_results:
         font-family: 'Segoe UI', sans-serif;
     ">
         <div style="font-weight: 600; font-size: 16px; margin-bottom: 12px; color: #1A1A1A;">
-            Similarity Score: {similarity}
+            Similarity Score: <span title="similarity calculated by cosine distance">{similarity}</span>
         </div>
         <table style="width: 100%; border-collapse: collapse;">
             <tr style="background-color: #F3F3F3;">
