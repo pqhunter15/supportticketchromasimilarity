@@ -120,7 +120,7 @@ if submit and query and top_results:
         topic = row['topic_label']
 
         st.markdown(f"""
-        div style="
+        <div style="
         border: 2px solid #32CD32;
         border-radius: 10px;
         padding: 16px;
