@@ -35,7 +35,7 @@ tech_tags = sorted(set(tag.strip() for tag in all_tags_series if isinstance(tag,
 
 
 # Sidebar tag filters
-st.sidebar.header("Optional Tag Filters")
+st.sidebar.header("Optional Tag Filtersss")
 selected_tags = st.sidebar.multiselect("Select one or more tags:", tech_tags)
 
 # Construct metadata filter
