@@ -103,7 +103,7 @@ def rewrite_query_openai(original_query, num_rewrites=2):
 # Run search
 top_k = 3
 if query and collection:
-    with st.spinner("Rewriting and searching..."):
+    with st.spinner("Searching..."):
         reworded_queries = rewrite_query_openai(query, num_rewrites=2)
         all_queries = [query] + reworded_queries
 
