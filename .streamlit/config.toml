@@ -1,7 +1,7 @@
 [theme]
 base = "light"
 primaryColor = "#32CD32"             # Lime green accent
-backgroundColor = "#FAFAFA"          # Soft warm light gray
+backgroundColor = "#ABB3B3"          # Soft warm light gray
 secondaryBackgroundColor = "#FFFFFF" # White panels
 textColor = "#1A1A1A"                # Dark gray for readability
 font = "sans serif"
