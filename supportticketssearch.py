@@ -120,14 +120,14 @@ if submit and query and top_results:
         topic = row['topic_label']
 
         st.markdown(f"""
-        <div style="border: 1px solid #32CD32;; padding: 10px; margin-bottom: 20px; border-radius: 6px;">
+        <div style="border: 1px solid #32CD32; padding: 10px; margin-bottom: 20px; border-radius: 8px; background-color: #1E1E1E;">
             <div style="font-weight: bold; margin-bottom: 8px;">
                 Similarity Score: {similarity} &nbsp;&nbsp;|&nbsp;&nbsp; Topic: {topic}
             </div>
             <table style="width: 100%; border-collapse: collapse;">
                 <tr>
-                    <th style="text-align: left; width: 50%; padding: 6px; border-bottom: 1px solid #ccc;">Ticket</th>
-                    <th style="text-align: left; width: 50%; padding: 6px; border-bottom: 1px solid #ccc;">Response</th>
+                    <th style="text-align: left; width: 50%; padding: 6px; border-bottom: 1px solid #32CD32;">Ticket</th>
+                    <th style="text-align: left; width: 50%; padding: 6px; border-bottom: 1px solid #32CD32;">Response</th>
                 </tr>
                 <tr>
                     <td style="vertical-align: top; padding: 6px;">{body[:800]}</td>
