@@ -31,29 +31,30 @@ tech_tag_columns = ["tech_tag_1", "tech_tag_2", "tech_tag_3"]
 all_tags_series = pd.concat([df[col].dropna() for col in tech_tag_columns])
 tech_tags = sorted(set(tag.strip() for tag in all_tags_series if isinstance(tag, str)))
 
-
-
 with st.form(key="query_form"):
     query = st.text_input("Enter Ticket Body Text Here:")
     selected_tags = st.multiselect("Select Tags (Optional):", tech_tags)
-    submit = st.form_submit_button(
-    label="Submit",
-    help="Click to submit your search request"
-)
 
+    submit = st.form_submit_button(
+        label="Submit Request",  # Text will appear
+        help="Click to submit your search request"
+    )
 st.markdown("""
 <style>
+/* Make the form submit button red with white text */
 div.stButton > button:first-child {
-    background-color: #D9534F;
-    color: white;
+    background-color: #D9534F;     /* Red background */
+    color: white;                  /* White text */
     font-weight: 600;
     border: none;
-    border-radius: 4px;
-    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    padding: 0.6rem 1.4rem;
+    font-size: 16px;
     transition: background-color 0.2s ease;
 }
+
 div.stButton > button:first-child:hover {
-    background-color: #C9302C;
+    background-color: #C9302C;     /* Darker red on hover */
 }
 </style>
 """, unsafe_allow_html=True)
