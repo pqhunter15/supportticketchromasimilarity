@@ -142,35 +142,33 @@ if submit and query:
             answer = row['answer']
             topic = row['topic_label']
 
-    
-
-        st.markdown(f"""
-        <div style="
-        border: 2px solid #32CD32;
-        border-radius: 10px;
-        padding: 16px;
-        margin-bottom: 24px;
-        background-color: #FFFFFF;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.03);
-        font-family: 'Segoe UI', sans-serif;
-    ">
-        <div style="font-weight: 600; font-size: 16px; margin-bottom: 12px; color: #1A1A1A;">
-    Similarity Score: <span title="similarity calculated by cosine distance">{similarity}</span>
-</div>
-<table style="width: 100%; border-collapse: collapse;">
-    <tr style="background-color: #F3F3F3;">
-        <th style="text-align: left; width: 50%; padding: 10px; border-bottom: 1px solid #32CD32;">Ticket</th>
-        <th style="text-align: left; width: 50%; padding: 10px; border-bottom: 1px solid #32CD32;">Response</th>
-    </tr>
-    <tr>
-        <td style="padding: 10px; vertical-align: top; color: #333333;">{body[:800]}</td>
-        <td style="padding: 10px; vertical-align: top; color: #333333;">
-            <div id="answer-{doc_id}" style="white-space: pre-wrap;">{answer}</div>
-        </td>
-    </tr>
-</table>
-    </div>
-    """, unsafe_allow_html=True)
+            st.markdown(f"""
+            <div style="
+                border: 2px solid #32CD32;
+                border-radius: 10px;
+                padding: 16px;
+                margin-bottom: 24px;
+                background-color: #FFFFFF;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+                font-family: 'Segoe UI', sans-serif;
+            ">
+                <div style="font-weight: 600; font-size: 16px; margin-bottom: 12px; color: #1A1A1A;">
+                    Similarity Score: <span title="similarity calculated by cosine distance">{similarity}</span>
+                </div>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr style="background-color: #F3F3F3;">
+                        <th style="text-align: left; width: 50%; padding: 10px; border-bottom: 1px solid #32CD32;">Ticket</th>
+                        <th style="text-align: left; width: 50%; padding: 10px; border-bottom: 1px solid #32CD32;">Response</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; vertical-align: top; color: #333333;">{body[:800]}</td>
+                        <td style="padding: 10px; vertical-align: top; color: #333333;">
+                            <div id="answer-{doc_id}" style="white-space: pre-wrap;">{answer}</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            """, unsafe_allow_html=True)
 
 
 
