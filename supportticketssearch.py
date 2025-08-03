@@ -108,33 +108,34 @@ if query and collection:
         sorted_results = sorted(results_by_doc.items(), key=lambda x: x[1]["dist"])
         top_results = sorted_results[:top_k]
 
-st.markdown("### Results:")
+if submit and query and top_results:
+    st.markdown("### Results:")
 
-for doc_id, entry in top_results:
-    row = df[df["doc_id"] == doc_id].iloc[0]
+    for doc_id, entry in top_results:
+        row = df[df["doc_id"] == doc_id].iloc[0]
 
-    similarity = f"{entry['dist']:.4f}"
-    body = row['body']
-    answer = row['answer']
-    topic = row['topic_label']
+        similarity = f"{entry['dist']:.4f}"
+        body = row['body']
+        answer = row['answer']
+        topic = row['topic_label']
 
-    st.markdown(f"""
-    <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px; border-radius: 6px;">
-        <div style="font-weight: bold; margin-bottom: 8px;">
-            Similarity Score: {similarity} &nbsp;&nbsp;|&nbsp;&nbsp; Topic: {topic}
+        st.markdown(f"""
+        <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px; border-radius: 6px;">
+            <div style="font-weight: bold; margin-bottom: 8px;">
+                Similarity Score: {similarity} &nbsp;&nbsp;|&nbsp;&nbsp; Topic: {topic}
+            </div>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <th style="text-align: left; width: 50%; padding: 6px; border-bottom: 1px solid #ccc;">Body</th>
+                    <th style="text-align: left; width: 50%; padding: 6px; border-bottom: 1px solid #ccc;">Answer</th>
+                </tr>
+                <tr>
+                    <td style="vertical-align: top; padding: 6px;">{body[:800]}</td>
+                    <td style="vertical-align: top; padding: 6px;">{answer}</td>
+                </tr>
+            </table>
         </div>
-        <table style="width: 100%; border-collapse: collapse;">
-            <tr>
-                <th style="text-align: left; width: 50%; padding: 6px; border-bottom: 1px solid #ccc;">Body</th>
-                <th style="text-align: left; width: 50%; padding: 6px; border-bottom: 1px solid #ccc;">Answer</th>
-            </tr>
-            <tr>
-                <td style="vertical-align: top; padding: 6px;">{body[:800]}</td>
-                <td style="vertical-align: top; padding: 6px;">{answer}</td>
-            </tr>
-        </table>
-    </div>
-    """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
 
 
 
