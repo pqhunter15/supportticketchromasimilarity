@@ -25,11 +25,23 @@ collection = st.session_state.collection
 # Query input
 query = st.text_input("Enter your question:")
 
+#pulling list of eligible tags
+# Collect all unique tech tags from the 3 columns
+tech_tags = pd.unique(
+    pd.concat([df["tech_tag_1"], df["tech_tag_2"], df["tech_tag_3"]])
+    .dropna()
+    .str.strip()
+)
+
+# Sort alphabetically for nice UI
+tech_tags = sorted(tag for tag in tech_tags if tag)
+
+
 # Sidebar tag filters
 st.sidebar.header("Optional Tag Filters")
-tag1 = st.sidebar.text_input("Filter Tag 1")
-tag2 = st.sidebar.text_input("Filter Tag 2")
-tag3 = st.sidebar.text_input("Filter Tag 3")
+tag1 = st.sidebar.selectbox("Filter Tag 1", options=[""] + tech_tags, index=0)
+tag2 = st.sidebar.selectbox("Filter Tag 2", options=[""] + tech_tags, index=0)
+tag3 = st.sidebar.selectbox("Filter Tag 3", options=[""] + tech_tags, index=0)
 
 # Construct metadata filter
 filters = []
