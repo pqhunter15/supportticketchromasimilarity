@@ -164,8 +164,13 @@ if submit and query:
             </tr>
             <tr>
                 <td style="padding: 10px; vertical-align: top; color: #333333;">{body[:800]}</td>
-                <td style="padding: 10px; vertical-align: top; color: #333333;">{answer}</td>
-            </tr>
+                <div id="answer-{doc_id}" style="white-space: pre-wrap;">{answer}</div>
+                <button onclick="navigator.clipboard.writeText(document.getElementById('answer-{doc_id}').innerText)" 
+                    style="margin-top: 8px; background-color: #32CD32; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">
+                Copy Response
+            </button>
+        </td>
+    </tr>
         </table>
     </div>
     """, unsafe_allow_html=True)
