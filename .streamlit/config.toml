@@ -2,6 +2,6 @@
 base = "dark"
 primaryColor = "#32CD32"             # Lime green
 backgroundColor = "#737282"          # Dark gray background
-secondaryBackgroundColor = "#1E1E1E" # For input panels and cards
+secondaryBackgroundColor = "#333232" # For input panels and cards
 textColor = "#E0E0E0"                # Soft white
 font = "sans serif"
