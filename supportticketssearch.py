@@ -126,8 +126,8 @@ if submit and query and top_results:
             </div>
             <table style="width: 100%; border-collapse: collapse;">
                 <tr>
-                    <th style="text-align: left; width: 50%; padding: 6px; border-bottom: 1px solid #ccc;">Body</th>
-                    <th style="text-align: left; width: 50%; padding: 6px; border-bottom: 1px solid #ccc;">Answer</th>
+                    <th style="text-align: left; width: 50%; padding: 6px; border-bottom: 1px solid #ccc;">Ticket</th>
+                    <th style="text-align: left; width: 50%; padding: 6px; border-bottom: 1px solid #ccc;">Response</th>
                 </tr>
                 <tr>
                     <td style="vertical-align: top; padding: 6px;">{body[:800]}</td>
