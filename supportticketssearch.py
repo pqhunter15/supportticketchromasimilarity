@@ -34,7 +34,7 @@ tech_tags = sorted(set(tag.strip() for tag in all_tags_series if isinstance(tag,
 
 
 with st.form(key="query_form"):
-    query = st.text_input("Enter your question:")
+    query = st.text_input("Enter Ticket Body Text Here:")
     selected_tags = st.multiselect("Select Tags (Optional):", tech_tags)
     submit = st.form_submit_button("Submit Request")
 
