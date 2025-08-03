@@ -39,7 +39,25 @@ with st.form(key="query_form"):
         label="Submit Request",  # Text will appear
         help="Click to submit your search request"
     )
+st.markdown("""
+<style>
+/* Make the form submit button red with white text */
+div.stButton > button:first-child {
+    background-color: #D9534F;     /* Red background */
+    color: white;                  /* White text */
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    padding: 0.6rem 1.4rem;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+}
 
+div.stButton > button:first-child:hover {
+    background-color: #C9302C;     /* Darker red on hover */
+}
+</style>
+""", unsafe_allow_html=True)
 
 # --- Filter construction ---
 filters = []
