@@ -129,16 +129,20 @@ if query and collection:
         sorted_results = sorted(results_by_doc.items(), key=lambda x: x[1]["dist"])
         top_results = sorted_results[:top_k]
 
-if submit and query and top_results:
-    st.markdown("### Results:")
+if submit and query:
+    if not top_results:
+        st.warning("No matching documents found. Try adjusting your query or tag filters.")
+    else:
+        st.markdown("### Results:")
+        for doc_id, entry in top_results:
+            row = df[df["doc_id"] == doc_id].iloc[0]
 
-    for doc_id, entry in top_results:
-        row = df[df["doc_id"] == doc_id].iloc[0]
+            similarity = f"{entry['dist']:.4f}"
+            body = row['body']
+            answer = row['answer']
+            topic = row['topic_label']
 
-        similarity = f"{entry['dist']:.4f}"
-        body = row['body']
-        answer = row['answer']
-        topic = row['topic_label']
+    
 
         st.markdown(f"""
         <div style="
