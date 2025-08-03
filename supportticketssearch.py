@@ -33,14 +33,9 @@ tech_tags = sorted(set(tag.strip() for tag in all_tags_series if isinstance(tag,
 
 
 
-
-# Sidebar tag filters
-st.sidebar.header("Tag Filters")
-selected_tags = st.sidebar.multiselect("Select one or more tags:", tech_tags)
-
 with st.form(key="query_form"):
     query = st.text_input("Enter your question:")
-    selected_tags = st.multiselect("Select one or more tags:", tech_tags)
+    selected_tags = st.multiselect("Select Tags (Optional):", tech_tags)
     submit = st.form_submit_button("Submit Request")
 
 # --- Filter construction ---
