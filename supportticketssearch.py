@@ -120,22 +120,30 @@ if submit and query and top_results:
         topic = row['topic_label']
 
         st.markdown(f"""
-        <div style="border: 1px solid #32CD32; padding: 10px; margin-bottom: 20px; border-radius: 8px; background-color: #1E1E1E;">
-            <div style="font-weight: bold; margin-bottom: 8px;">
-                Similarity Score: {similarity} &nbsp;&nbsp;|&nbsp;&nbsp; Topic: {topic}
-            </div>
-            <table style="width: 100%; border-collapse: collapse;">
-                <tr>
-                    <th style="text-align: left; width: 50%; padding: 6px; border-bottom: 1px solid #32CD32;">Ticket</th>
-                    <th style="text-align: left; width: 50%; padding: 6px; border-bottom: 1px solid #32CD32;">Response</th>
-                </tr>
-                <tr>
-                    <td style="vertical-align: top; padding: 6px;">{body[:800]}</td>
-                    <td style="vertical-align: top; padding: 6px;">{answer}</td>
-                </tr>
-            </table>
+        div style="
+        border: 2px solid #32CD32;
+        border-radius: 10px;
+        padding: 16px;
+        margin-bottom: 24px;
+        background-color: #FFFFFF;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+        font-family: 'Segoe UI', sans-serif;
+    ">
+        <div style="font-weight: 600; font-size: 16px; margin-bottom: 12px; color: #1A1A1A;">
+            Similarity Score: {similarity} &nbsp;&nbsp;|&nbsp;&nbsp; <span style="color:#32CD32;">{topic}</span>
         </div>
-        """, unsafe_allow_html=True)
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr style="background-color: #F3F3F3;">
+                <th style="text-align: left; width: 50%; padding: 10px; border-bottom: 1px solid #32CD32;">Ticket</th>
+                <th style="text-align: left; width: 50%; padding: 10px; border-bottom: 1px solid #32CD32;">Response</th>
+            </tr>
+            <tr>
+                <td style="padding: 10px; vertical-align: top; color: #333333;">{body[:800]}</td>
+                <td style="padding: 10px; vertical-align: top; color: #333333;">{answer}</td>
+            </tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 
