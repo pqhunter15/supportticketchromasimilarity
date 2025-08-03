@@ -37,7 +37,7 @@ with st.form(key="query_form"):
     query = st.text_input("Enter Ticket Body Text Here:")
     selected_tags = st.multiselect("Select Tags (Optional):", tech_tags)
     submit = st.form_submit_button(
-    label="",
+    label="Submit",
     help="Click to submit your search request"
 )
 
