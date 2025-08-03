@@ -36,7 +36,27 @@ tech_tags = sorted(set(tag.strip() for tag in all_tags_series if isinstance(tag,
 with st.form(key="query_form"):
     query = st.text_input("Enter Ticket Body Text Here:")
     selected_tags = st.multiselect("Select Tags (Optional):", tech_tags)
-    submit = st.form_submit_button("Submit Request")
+    submit = st.form_submit_button(
+    label="",
+    help="Click to submit your search request"
+)
+
+st.markdown("""
+<style>
+div.stButton > button:first-child {
+    background-color: #D9534F;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1.2rem;
+    transition: background-color 0.2s ease;
+}
+div.stButton > button:first-child:hover {
+    background-color: #C9302C;
+}
+</style>
+""", unsafe_allow_html=True)
 
 # --- Filter construction ---
 filters = []
