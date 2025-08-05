@@ -10,18 +10,9 @@ from openai import OpenAI
 import chromadb
 from chroma_setup import load_chroma_collection
 
-import time
-import requests
 
-APP_URL = "https://supportticketchromasimilarity-gqeuyq44wkvxnovui8jbf4.streamlit.app/"
 
-while True:
-    try:
-        requests.get(APP_URL, timeout=10)
-        print("Pinged app successfully.")
-    except Exception as e:
-        print("Ping failed:", e)
-    time.sleep(600)  # ping every 10 minutes
+
 
 # Load OpenAI key
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
