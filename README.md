@@ -1,5 +1,4 @@
-# supportticketchromasimilarity
-
+# Technical Support Ticket Semantic Similarity Search- An efficiency tool for technical support agents
 This is a semantic similarity search system that uses vector embeddings of support ticket text, stored and indexed in a ChromaDB vector database, with optional metadata filtering, and a Streamlit front‑end.
 The system improves retrieval accuracy by query rewriting via the OpenAI API, runs evaluation in Google Colab, and is deployed with storage on Hugging Face Datasets for persistence.
 
@@ -15,6 +14,8 @@ How it works:
 2. Filter by the technologies mentioned in the ticket using the tag field.
 3. It is reccomended to first search without tags, and then, if the search doesn't yeild meaningful results, apply tags.
 4. Choose the most appropriate ticket response to copy and paste back into your response to the customer.
+
+You can access the application here: https://supportticketchromasimilarity-gqeuyq44wkvxnovui8jbf4.streamlit.app/
 
 
 Because the collection was created from a dataset of sample support tickets, only certain query topics will yeild actionable results.
