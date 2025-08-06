@@ -6,15 +6,15 @@ The system improves retrieval accuracy by query rewriting via the OpenAI API, ru
 This is meant to be a proof of concept for an application which could be integrated with a support ticketing software, to be used as an internal tool for technical support agents. 
 
 This can assist agents with:
-  Keeping track of bugs that have already been identified by other agents
-  Quickly answering FAQs without the need for many macros
-  Training new support agents
+1. Keeping track of bugs that have already been identified by other agents
+2. Quickly answering FAQs without the need for many macros
+3. Training new support agents
   
 How it works:
-    Input your support ticket 'body' into the query.
-    Filter by the technologies mentioned in the ticket using the tag field.
-    It is reccomended to first search without tags, and then, if the search doesn't yeild meaningful results, apply tags.
-    Choose the most appropriate ticket response to copy and paste back into your response to the customer.
+1. Input your support ticket 'body' into the query.
+2. Filter by the technologies mentioned in the ticket using the tag field.
+3. It is reccomended to first search without tags, and then, if the search doesn't yeild meaningful results, apply tags.
+4. Choose the most appropriate ticket response to copy and paste back into your response to the customer.
 
 
 Because the collection was created from a dataset of sample support tickets, only certain query topics will yeild actionable results.
