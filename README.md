@@ -33,3 +33,4 @@ Below is a list of sample queries to try, but you can also look through the tech
 We're having trouble maintaining a stable connection with the Google Nest Wifi Router, which is disrupting our marketing efforts. The issue might’ve been triggered by a firmware update or a misconfiguration. We’ve already tried basic troubleshooting like restarting and checking all the physical connections, but no luck so far.
   
   
+Stack: OpenAI Embeddings + GPT for query rewriting · ChromaDB for vector search · Streamlit UI · Hugging Face Datasets for persistence · Google Colab for evaluation.
