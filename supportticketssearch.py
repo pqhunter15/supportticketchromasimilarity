@@ -19,7 +19,7 @@ from DocumentVectorDB.chroma_setup import load_chroma_collection
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 # Load CSV
-github_url = "https://raw.githubusercontent.com/pqhunter15/supportticketchromasimilarity/main/data/support_cleaned_1.csv"
+github_url = "https://raw.githubusercontent.com/pqhunter15/supportticketchromasimilarity/main/support_cleaned_1.csv"
 df = pd.read_csv(github_url)
 
 # Load Chroma collection (only once)
