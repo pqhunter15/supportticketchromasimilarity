@@ -8,7 +8,8 @@ import pandas as pd
 import streamlit as st
 from openai import OpenAI
 import chromadb
-from chroma_setup import load_chroma_collection
+from DocumentVectorDB.chroma_setup import load_chroma_collection
+
 
 
 
