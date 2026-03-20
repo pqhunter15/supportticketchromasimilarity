@@ -206,6 +206,10 @@ if submit and query:
 
             st.markdown("### Missing Information")
             missing_info = generated.get("missing_information", [])
+            if isinstance(missing_info, str):
+                missing_info = [missing_info]
+            elif missing_info is None:
+                missing_info = []
             if missing_info:
                 for item in missing_info:
                     st.markdown(f"- {item}")
