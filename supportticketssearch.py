@@ -138,8 +138,10 @@ def rewrite_query_openai(original_query, num_rewrites=2):
     return reworded
 
 # Run search
+# Run search + generation
 top_k = 3
-if query and collection:
+
+if submit and query:
     with st.spinner("Searching..."):
         reworded_queries = rewrite_query_openai(query, num_rewrites=2)
         all_queries = [query] + reworded_queries
@@ -154,7 +156,9 @@ if query and collection:
                 include=["documents", "metadatas", "distances"]
             )
 
-            for doc, meta, dist in zip(*[results[k][0] for k in ["documents", "metadatas", "distances"]]):
+            for doc, meta, dist in zip(
+                *[results[k][0] for k in ["documents", "metadatas", "distances"]]
+            ):
                 doc_id = int(meta["original_doc_id"])
                 if doc_id not in results_by_doc or dist < results_by_doc[doc_id]["dist"]:
                     results_by_doc[doc_id] = {
@@ -166,18 +170,60 @@ if query and collection:
         sorted_results = sorted(results_by_doc.items(), key=lambda x: x[1]["dist"])
         top_results = sorted_results[:top_k]
 
-if submit and query:
     if not top_results:
         st.warning("No matching documents found. Try adjusting your query or tag filters.")
     else:
-        st.markdown("### Results:")
+        # Step 3A: Build retrieved_cases
+        retrieved_cases = []
+        for doc_id, entry in top_results:
+            row = df[df["doc_id"] == doc_id].iloc[0]
+
+            retrieved_cases.append({
+                "doc_id": int(doc_id),
+                "body": row["body"],
+                "answer": row["answer"],
+                "topic_label": row.get("topic_label", ""),
+                "distance": float(entry["dist"])
+            })
+
+        # Step 3B: Generate grounded response
+        try:
+            generated = generate_grounded_response(client, query, retrieved_cases)
+
+            st.markdown("## Generated Support Response")
+
+            st.markdown("### Customer Reply")
+            st.write(generated.get("customer_reply", "No reply generated."))
+
+            st.markdown("### Internal Notes")
+            st.write(generated.get("internal_notes", "No internal notes generated."))
+
+            st.markdown("### Confidence")
+            st.write(generated.get("confidence", "Unknown"))
+
+            st.markdown("### Escalation Needed")
+            st.write(generated.get("escalation_needed", "Unknown"))
+
+            st.markdown("### Missing Information")
+            missing_info = generated.get("missing_information", [])
+            if missing_info:
+                for item in missing_info:
+                    st.markdown(f"- {item}")
+            else:
+                st.write("None")
+
+        except Exception as e:
+            st.error(f"Response generation failed: {e}")
+
+        # Step 3C: Show supporting retrieved tickets
+        st.markdown("## Supporting Historical Tickets")
+
         for doc_id, entry in top_results:
             row = df[df["doc_id"] == doc_id].iloc[0]
 
             similarity = f"{entry['dist']:.4f}"
-            body = row['body']
-            answer = row['answer']
-            topic = row['topic_label']
+            body = row["body"]
+            answer = row["answer"]
 
             st.markdown(f"""
             <div style="
@@ -195,7 +241,7 @@ if submit and query:
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr style="background-color: #F3F3F3;">
                         <th style="text-align: left; width: 50%; padding: 10px; border-bottom: 1px solid #32CD32;">Ticket</th>
-                        <th style="text-align: left; width: 50%; padding: 10px; border-bottom: 1px solid #32CD32;">Response</th>
+                        <th style="text-align: left; width: 50%; padding: 10px; border-bottom: 1px solid #32CD32;">Historical Response</th>
                     </tr>
                     <tr>
                         <td style="padding: 10px; vertical-align: top; color: #333333;">{body[:800]}</td>
