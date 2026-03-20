@@ -8,6 +8,7 @@ import pandas as pd
 import streamlit as st
 from openai import OpenAI
 import chromadb
+import json
 from DocumentVectorDB.chroma_setup import load_chroma_collection
 
 
@@ -26,6 +27,37 @@ df = pd.read_csv(github_url)
 if "collection" not in st.session_state:
     st.session_state.collection = load_chroma_collection()
 collection = st.session_state.collection
+
+#response generation
+def generate_grounded_response(client, query, retrieved_cases):
+    system_prompt = """
+You are a technical support assistant.
+Use only the retrieved historical tickets and answers.
+Return JSON with:
+customer_reply, internal_notes, confidence, escalation_needed, missing_information
+If evidence is weak, set escalation_needed=true.
+"""
+
+    context = "\n\n".join([
+        f"""Retrieved Case {i}
+Body: {c['body']}
+Answer: {c['answer']}
+Topic: {c['topic_label']}
+Distance: {c['distance']:.4f}
+"""
+        for i, c in enumerate(retrieved_cases, 1)
+    ])
+
+    response = client.responses.create(
+        model="gpt-4.1-mini",
+        input=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": f"Incoming ticket:\n{query}\n\n{context}"}
+        ]
+    )
+
+    text = response.output_text
+    return json.loads(text)
 
 # Query input
 
