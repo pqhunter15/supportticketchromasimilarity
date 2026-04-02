@@ -1,6 +1,6 @@
 # Technical Support Ticket Semantic Similarity Search- An efficiency tool for technical support agents
 This is a semantic similarity search system that uses vector embeddings of support ticket text, stored and indexed in a ChromaDB vector database, with optional metadata filtering, and a Streamlit front‑end.
-The system improves retrieval accuracy by query rewriting via the OpenAI API, runs evaluation in Google Colab, and is deployed with storage on Hugging Face Datasets for persistence.
+The system improves retrieval accuracy by query rewriting via the OpenAI API and is deployed with storage on Hugging Face Datasets for persistence.
 
 This is meant to be a proof of concept for an application which could be integrated with a support ticketing software, to be used as an internal tool for technical support agents. 
 
