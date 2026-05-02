@@ -147,8 +147,6 @@ def load_embedding_model():
 
 embedding_model = load_embedding_model()
 
-query_embedding = embedding_model.encode(q).tolist()
-
 
 if submit and query:
     with st.spinner("Searching..."):
@@ -158,6 +156,7 @@ if submit and query:
         results_by_doc = {}
 
         for q in all_queries:
+            query_embedding = embedding_model.encode(q).tolist()
             results = collection.query(
                 query_embeddings=[query_embedding],
                 n_results=top_k,
