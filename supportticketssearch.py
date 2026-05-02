@@ -10,6 +10,7 @@ from openai import OpenAI
 import chromadb
 import json
 from DocumentVectorDB.chroma_setup import load_chroma_collection
+from sentence_transformers import SentenceTransformer
 
 
 
@@ -140,6 +141,14 @@ def rewrite_query_openai(original_query, num_rewrites=2):
 # Run search
 # Run search + generation
 top_k = 3
+@st.cache_resource
+def load_embedding_model():
+    return SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+
+embedding_model = load_embedding_model()
+
+query_embedding = embedding_model.encode(q).tolist()
+
 
 if submit and query:
     with st.spinner("Searching..."):
@@ -150,7 +159,7 @@ if submit and query:
 
         for q in all_queries:
             results = collection.query(
-                query_texts=[q],
+                query_embeddings=[query_embedding],
                 n_results=top_k,
                 where=where_clause,
                 include=["documents", "metadatas", "distances"]
